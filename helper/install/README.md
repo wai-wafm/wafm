@@ -47,6 +47,10 @@
 
 > http://localhost:8000/index.html
 
-9.) добавить первый файл шаблона index.html
+9.) добавить первый файл шаблона index.html если его нет
 
 > res://wafm/app/html/index.html
+
+10.) в проекте -> пакеты:
+ 
+> подключить пакет Preg 0.2
