@@ -1,7 +1,7 @@
 # WAFM
 web application interface | web application framework
 
-#О проекте WAFM
+### О проекте WAFM
 
 WAFM - (web app framework) это мини фреймворк с внутренним веб-сервером, 
            который выстраивает взаимосвязь внутренней архитектуры приложений 
