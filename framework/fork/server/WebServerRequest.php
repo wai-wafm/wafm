@@ -15,6 +15,10 @@ class WebServerRequest
      * @var string
      */
     private $query = '';
+     /**
+     * @var array
+     */   
+    private $prefix = ['./','../','../../','//'];
 
     /**
      * @param string $input
@@ -24,7 +28,7 @@ class WebServerRequest
         $line = explode(" ", explode("\n", $input)[0]);
         $this->method = $line[0];
         $link = explode("?", $line[1]);
-        $this->link = str_replace(['./','../'], '/', $link[0]);
+        $this->link = str_replace($this->prefix, '/', $link[0]);
         $this->query = $this->parseQuery($link[1]);
     }
 

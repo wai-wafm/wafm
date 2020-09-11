@@ -50,14 +50,13 @@ class WebServerResponse
         }
 
         if($this->requestExtension === 'html' || $this->requestExtension === 'php') {
-            $this->resource = WebEnv::PATH_HTML;
+            $this->resource = WebEnv::PATH_HTML . $request->getLink();
         }          
         else {
-            $this->resource = WebEnv::PATH_RESOURCE;
+            $this->resource = $this->getRouteSource($request->getLink());
         }
         
-        $this->mime = $mimes[$this->requestExtension];                  
-        $this->resource .= $request->getLink(); 
+        $this->mime = $mimes[$this->requestExtension];                   
     }
     
     public function getResource()
@@ -122,15 +121,18 @@ class WebServerResponse
     private function registerMIMES(): array
     {
         return [
-            'html' => 'text/html; charset=UTF-8',
-            'php'  => 'text/html; charset=UTF-8',
-            'css'  => 'text/css; charset=UTF-8',
-            'js'   => 'text/javascript',
-            'jpg'  => 'image/jpeg',
-            'jpeg' => 'image/jpeg',
-            'gif'  => 'image/gif',
-            'png'  => 'image/png',
-            'ico'  => 'text/html; charset=UTF-8',
+            'html'  => 'text/html; charset=UTF-8',
+            'php'   => 'text/html; charset=UTF-8',
+            'css'   => 'text/css; charset=UTF-8',
+            'js'    => 'text/javascript',
+            'jpg'   => 'image/jpeg',
+            'jpeg'  => 'image/jpeg',
+            'gif'   => 'image/gif',
+            'png'   => 'image/png',
+            'ico'   => 'text/html; charset=UTF-8',
+            'woff'  => 'application/font-woff',
+            'woff2' => 'application/font-woff',
+            'ttf'   => 'application/x-font-ttf',
         ];
     }
     
@@ -141,5 +143,13 @@ class WebServerResponse
             return NULL;
         }
         return strtolower(str_replace(['.','-','_'], "", $matcher[1]));
+    }
+    
+    private function getRouteSource(string $link)
+    {                       
+        $link = (WebEnv::GUI_FRAMEWORK && preg_match("/^\/gui\/(". WebEnv::GUI_NAME . ")", $link)) 
+            ? WebEnv::PATH_GUI . str_replace("\/gui", '', $link)
+            : WebEnv::PATH_RESOURCE . $link;
+        return $link; 
     }
 }
